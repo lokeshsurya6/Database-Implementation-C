@@ -20,19 +20,45 @@ int HeapFile::Create(char *f_path, fType f_type, void *startup) {
 	mainFile = new File();
 	mainFile->Open(0, f_path);
 	bufferPage = new Page();
-	mainFile->Close();
 	return 1;
 }
 
 void HeapFile::Load(Schema &f_schema, char *loadpath) {
+	FILE *fileToRead = fopen(loadpath, "r");
+	Record tempRecord;
+	
+	while (tempRecord.SuckNextRecord(&f_schema, fileToRead) == 1) {
+		Add(tempRecord);
+	}
+
+	int totalPages = mainFile->GetLength();
+	totalPages = (totalPages == 0) ? 0 : totalPages - 1;
+	mainFile->AddPage(bufferPage, totalPages);
+
+	cerr << "Load done. Number of Pages: " << mainFile->GetLength() << endl;
 }
 
 int HeapFile::Open(char *f_path) {
+	mainFile = new File();
 	mainFile->Open(1, f_path);
+	bufferPage = new Page();
 }
 
 void HeapFile::MoveFirst() {
+	off_t totalNumOfPages = mainFile->GetLength();
+	if (totalNumOfPages == 0) {
+		mainFile->AddPage(bufferPage, 0);
+		bufferPage->EmptyItOut();
+	}
 
+	Page temp;
+	mainFile->GetPage(&temp, 0);
+	readPagePointer = &temp;
+	
+	Record rec;
+	temp.GetFirst(&rec);
+	recordPointer = &rec;
+	currentPageNumber = 0;
 }
 
 int HeapFile::Close() {
@@ -41,23 +67,26 @@ int HeapFile::Close() {
 }
 
 void HeapFile::Add(Record &rec) {
-	cerr << "reached add" << endl;
-	if(bufferPage == NULL)
-		cerr << "null found" << endl;
+	Record temp = rec;
 	int result = bufferPage->Append(&rec);
-	cerr << "after append" << endl;
+
 	if (result == 1) {
 		return;
 	}
 	else {
-		off_t numOfPages = mainFile->GetLength();
-		mainFile->AddPage(bufferPage, numOfPages+1);
-		bufferPage->EmptyItOut();
-		bufferPage->Append(&rec);
+		off_t totalPages = mainFile->GetLength();
+		totalPages = (totalPages == 0) ? 0 : totalPages - 1;
+		mainFile->AddPage(bufferPage, totalPages);
+		//bufferPage->EmptyItOut();
+		//delete bufferPage;
+		//bufferPage = NULL;
+		bufferPage = new Page();
+		bufferPage->Append(&temp);
 	}
 }
 
 int HeapFile::GetNext(Record &fetchme) {
+
 }
 
 int HeapFile::GetNext(Record &fetchme, CNF &cnf, Record &literal) {
