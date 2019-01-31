@@ -42,7 +42,7 @@ int HeapFile::Close() {
 }
 
 void HeapFile::Add(Record &rec) {
-	int result = bufferPage->Append(rec);
+	int result = bufferPage->Append(&rec);
 	if (result == 1) {
 		return;
 	}
@@ -50,27 +50,7 @@ void HeapFile::Add(Record &rec) {
 		off_t numOfPages = mainFile->GetLength();
 		mainFile->AddPage(bufferPage, numOfPages+1);
 		bufferPage->EmptyItOut();
-		bufferPage->Append(rec);
-	}
-
-	off_t numOfPages = mainFile->GetLength();
-	if (numOfPages == 0) {
-
-		Page firstPage;
-		firstPage.Append(rec);
-		mainFile.Add(&firstPage, 1);
-	}
-	else {
-		Page lastPage;
-		mainFile.GetPage(&lastPage, numOfPages);
-		int result = lastPage.Append(rec);
-		if (result == 0) {
-			//TODO
-			// No Space
-		}
-		else {
-			mainFile.AddPage(&lastPage, numOfPages);
-		}
+		bufferPage->Append(&rec);
 	}
 }
 
