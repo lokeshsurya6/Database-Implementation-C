@@ -20,7 +20,6 @@ int HeapFile::Create(char *f_path, fType f_type, void *startup) {
 	mainFile = new File();
 	mainFile->Open(0, f_path);
 	bufferPage = new Page();
-	mainFile->AddPage(bufferPage,1);
 	mainFile->Close();
 	return 1;
 }
