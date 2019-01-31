@@ -2,6 +2,7 @@
 #include <iostream>
 #include "Record.h"
 #include "File.h"
+#include "DBFile.h"
 #include <stdlib.h>
 using namespace std;
 
@@ -73,11 +74,25 @@ int main () {
 	trialFile.GetPage(&readablePage,1);
 	Record readableRecord;
 	cerr << "lokesh" << "\n";
-	while (readablePage.GetFirst(&readableRecord))
+	/*while (readablePage.GetFirst(&readableRecord))
 	{
 		readableRecord.Print(&mySchema);
+	}*/
+
+	DBFile dbFile;
+	char testFileName[] = "dbfileTest";
+	fType testFileType = fType::heap;
+	dbFile.Create(testFileName,testFileType,NULL);
+	dbFile.Open(testFileName);
+
+	cerr << "opened" << "\n";
+	while (readablePage.GetFirst(&readableRecord))
+	{
+		dbFile.Add(readableRecord);
+		//readableRecord.Print(&mySchema);
 	}
 
+	dbFile.Close();
 }
 
 
