@@ -5,7 +5,7 @@
 #include "Schema.h"
 #include "File.h"
 
-typedef enum { heap, sorted, tree } fType;
+enum class fType { heap, sorted, tree };
 
 class RawDBFile {
 public:
