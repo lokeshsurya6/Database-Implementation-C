@@ -41,7 +41,11 @@ int HeapFile::Close() {
 }
 
 void HeapFile::Add(Record &rec) {
+	cerr << "reached add" << endl;
+	if(bufferPage == NULL)
+		cerr << "null found" << endl;
 	int result = bufferPage->Append(&rec);
+	cerr << "after append" << endl;
 	if (result == 1) {
 		return;
 	}
