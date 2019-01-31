@@ -29,7 +29,7 @@ int DBFile::Create (char *f_path, fType f_type, void *startup) {
 
 	ofstream metaFileStream;
 	metaFileStream.open(metaFileName);
-	if (f_type == heap) {
+	if (f_type == fType::heap) {
 		metaFileStream << "heap";
 		rawDBFile = new HeapFile();
 	}
@@ -39,6 +39,7 @@ int DBFile::Create (char *f_path, fType f_type, void *startup) {
 }
 
 void DBFile::Load (Schema &f_schema, char *loadpath) {
+	rawDBFile->Load(f_schema,loadpath);
 }
 
 int DBFile::Open (char *f_path) {
@@ -65,7 +66,7 @@ int DBFile::Open (char *f_path) {
 }
 
 void DBFile::MoveFirst () {
-
+	rawDBFile->MoveFirst();
 }
 
 int DBFile::Close () {
