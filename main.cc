@@ -46,7 +46,8 @@ int main () {
 	// the CNF expression that was typed in
 	int counter = 0;
 	ComparisonEngine comp;
-    while (temp.SuckNextRecord (&mySchema, tableFile) == 1) {
+   /*
+	while (temp.SuckNextRecord (&mySchema, tableFile) == 1) {
 			counter++;
 			if (counter % 10000 == 0) {
 				cerr << counter << "\n";
@@ -56,7 +57,8 @@ int main () {
                 		temp.Print (&mySchema);
 
     }
-	
+	*/
+	/*
 	File trialFile;
 	char fileName[] = "test";
 	trialFile.Open(0,fileName);
@@ -73,19 +75,23 @@ int main () {
 	Page readablePage;
 	trialFile.GetPage(&readablePage,1);
 	Record readableRecord;
+	*/
+
 	cerr << "lokesh" << "\n";
 	/*while (readablePage.GetFirst(&readableRecord))
 	{
 		readableRecord.Print(&mySchema);
 	}*/
 
+	fType testFileType = fType::heap;
+	/*
 	DBFile dbFile;
 	char testFileName[] = "dbfileTest";
-	fType testFileType = fType::heap;
+	
 	dbFile.Create(testFileName,testFileType,NULL);
 	dbFile.Open(testFileName);
 
-	cerr << "opened" << "\n";
+	cerr << "dbfile opened" << "\n";
 	while (readablePage.GetFirst(&readableRecord))
 	{
 		dbFile.Add(readableRecord);
@@ -93,6 +99,22 @@ int main () {
 	}
 
 	dbFile.Close();
+	*/
+
+	DBFile dbFile1;
+	char testFileName1[] = "dbfileTest1";
+	dbFile1.Create(testFileName1, testFileType, NULL);
+	//dbFile1.Open(testFileName1);
+	dbFile1.Load(mySchema, "lineitem.tbl");
+	
+	/*while (temp.SuckNextRecord(&mySchema, tableFile) == 1) {
+
+		//if (comp.Compare(&temp, &literal, &myComparison))
+			//temp.Print(&mySchema);
+			dbFile1.Add(temp);
+	}
+	*/
+	dbFile1.Close();
 }
 
 
