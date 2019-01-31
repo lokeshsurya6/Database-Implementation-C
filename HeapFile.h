@@ -11,6 +11,8 @@ private:
 	File *mainFile;
 	Page *bufferPage;
 	Record *recordPointer;
+	Page *readPagePointer;
+	int currentPageNumber;
 
 public:
 	HeapFile();
