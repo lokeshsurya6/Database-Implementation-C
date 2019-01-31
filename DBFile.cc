@@ -48,8 +48,8 @@ int DBFile::Open (char *f_path) {
 
 	ifstream metaFileStream;
 	metaFileStream.open(metaFileName);
-	String metaContent;
-	if (metaFileStream.is_open) {
+	string metaContent;
+	if (metaFileStream.is_open()) {
 		getline(metaFileStream,metaContent);
 	}
 	else {
