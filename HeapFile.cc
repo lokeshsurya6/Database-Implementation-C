@@ -19,6 +19,7 @@ int HeapFile::Create(char *f_path, fType f_type, void *startup) {
 	mainFile = new File();
 	mainFile->Open(0, f_path);
 	bufferPage = new Page();
+	readPagePointer = new Page();
 	return 1;
 }
 
@@ -42,6 +43,7 @@ int HeapFile::Open(char *f_path) {
 	mainFile = new File();
 	mainFile->Open(1, f_path);
 	bufferPage = new Page();
+	readPagePointer = new Page();
 	return 1;
 }
 
@@ -82,6 +84,7 @@ int HeapFile::Close() {
 	mainFile = NULL;
 	delete bufferPage;
 	bufferPage = NULL;
+	readPagePointer = NULL;
 	return 1;
 }
 
