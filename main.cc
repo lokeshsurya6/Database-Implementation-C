@@ -147,7 +147,7 @@ int main () {
 	rec.Print(&mySchema);
 	file.Close();
 
-
+	// Working until line 148 above without segfaults. Only GetNext remaining.
 
 }
 
