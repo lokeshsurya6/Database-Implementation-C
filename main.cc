@@ -16,11 +16,11 @@ int main () {
 
 	// try to parse the CNF
 	cout << "Enter in your CNF: ";
-  	if (yyparse() != 0) {
+  	/*if (yyparse() != 0) {
 		cout << "Can't parse your CNF.\n";
 		exit (1);
 	}
-
+	*/
 	// suck up the schema from the file
 	Schema lineitem ("catalog", "lineitem");
 
@@ -101,6 +101,22 @@ int main () {
 	dbFile.Close();
 	*/
 
+	/*
+	File file;
+	file.Open(1, "lineitem.tbl");
+	Page p;// = new Page();
+	file.GetPage(&p, 0);
+	Record rec;
+	p.GetFirst(&rec);
+	rec.Print(&mySchema);
+	p.EmptyItOut();
+	p.GetFirst(&rec);
+	
+
+	rec.Print(&mySchema);
+	file.Close();
+	*/
+
 	DBFile dbFile1;
 	char testFileName1[] = "dbfileTest1";
 	dbFile1.Create(testFileName1, testFileType, NULL);
@@ -114,7 +130,22 @@ int main () {
 			dbFile1.Add(temp);
 	}
 	*/
+	//dbFile1.MoveFirst();
 	dbFile1.Close();
+
+
+	File file;
+	file.Open(1, "dbfileTest1");
+	Page p;// = new Page();
+	file.GetPage(&p, 0);
+	Record rec;
+	p.GetFirst(&rec);
+	rec.Print(&mySchema);
+	//p.EmptyItOut();
+	p.GetFirst(&rec);
+	rec.Print(&mySchema);
+	file.Close();
+
 }
 
 
