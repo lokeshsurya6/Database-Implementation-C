@@ -7,11 +7,17 @@ tag = -n
 endif
 
 test.out: Record.o Comparison.o ComparisonEngine.o Schema.o File.o DBFile.o y.tab.o lex.yy.o test.o
-	$(CC) -o test.out Record.o Comparison.o ComparisonEngine.o Schema.o File.o DBFile.o y.tab.o lex.yy.o test.o -lfl
+	$(CC) -o test.out Record.o Comparison.o ComparisonEngine.o Schema.o File.o DBFile.o y.tab.o lex.yy.o test.o -lfl -lgtest
 	
 main: Record.o Comparison.o ComparisonEngine.o Schema.o File.o y.tab.o lex.yy.o main.o RawDBFile.o HeapFile.o DBFile.o
-	$(CC) -o main Record.o Comparison.o ComparisonEngine.o Schema.o File.o y.tab.o lex.yy.o DBFile.o RawDBFile.o HeapFile.o main.o -lfl
+	$(CC) -o main Record.o Comparison.o ComparisonEngine.o Schema.o File.o y.tab.o lex.yy.o DBFile.o RawDBFile.o HeapFile.o main.o -lfl -lgtest
 	
+testheapexec: TestHeap.o
+	$(CC) -o testheapexec TestHeap.o DBFile.o RawDBFile.o File.o HeapFile.o Schema.o -lgtest 
+
+TestHeap.o: TestHeap.cc
+	$(CC) -g -c TestHeap.cc
+
 RawDBFile.o: RawDBFile.cc
 	$(CC) -g -c RawDBFile.cc
 
