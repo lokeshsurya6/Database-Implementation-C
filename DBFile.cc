@@ -78,7 +78,9 @@ void DBFile::Add (Record &rec) {
 }
 
 int DBFile::GetNext (Record &fetchme) {
+	rawDBFile->GetNext(fetchme);
 }
 
 int DBFile::GetNext (Record &fetchme, CNF &cnf, Record &literal) {
+	rawDBFile->GetNext(fetchme, cnf, literal);
 }
