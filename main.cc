@@ -130,7 +130,8 @@ int main () {
 			dbFile1.Add(temp);
 	}
 	*/
-	//dbFile1.MoveFirst();
+	dbFile1.MoveFirst();
+	cout << "after move" << endl;
 	dbFile1.Close();
 
 
@@ -145,6 +146,8 @@ int main () {
 	p.GetFirst(&rec);
 	rec.Print(&mySchema);
 	file.Close();
+
+
 
 }
 
