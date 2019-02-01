@@ -16,11 +16,11 @@ int main () {
 
 	// try to parse the CNF
 	cout << "Enter in your CNF: ";
-  	/*if (yyparse() != 0) {
+  	if (yyparse() != 0) {
 		cout << "Can't parse your CNF.\n";
 		exit (1);
 	}
-	*/
+	
 	// suck up the schema from the file
 	Schema lineitem ("catalog", "lineitem");
 
@@ -33,9 +33,9 @@ int main () {
 	myComparison.Print ();
 
 	// now open up the text file and start procesing it
-        FILE *tableFile = fopen ("lineitem.tbl", "r");
+        //FILE *tableFile = fopen ("lineitem.tbl", "r");
 
-        Record temp;
+        //Record temp;
         Schema mySchema ("catalog", "lineitem");
 
 	//char *bits = literal.GetBits ();
@@ -44,8 +44,8 @@ int main () {
 
         // read in all of the records from the text file and see if they match
 	// the CNF expression that was typed in
-	int counter = 0;
-	ComparisonEngine comp;
+	//int counter = 0;
+	//ComparisonEngine comp;
    /*
 	while (temp.SuckNextRecord (&mySchema, tableFile) == 1) {
 			counter++;
@@ -122,33 +122,93 @@ int main () {
 	dbFile1.Create(testFileName1, testFileType, NULL);
 	//dbFile1.Open(testFileName1);
 	dbFile1.Load(mySchema, "lineitem.tbl");
-	
-	/*while (temp.SuckNextRecord(&mySchema, tableFile) == 1) {
-
-		//if (comp.Compare(&temp, &literal, &myComparison))
-			//temp.Print(&mySchema);
-			dbFile1.Add(temp);
-	}
-	*/
 	dbFile1.MoveFirst();
 	cout << "after move" << endl;
 	dbFile1.Close();
+	
+	//File file;
+	//file.Open(1,testFileName1);
+	//Page p;
+	//Record rec;
+	//cout << file.GetLength() << endl;
+	//for (int i = 0; i < file.GetLength(); i++) {
+	//	file.GetPage(&p,i);
 
+	//	while (p.GetFirst(&rec)) {
+	//		rec.Print(&mySchema);
+	//		//cout << endl;
+	//	}
+	//}
+	//file.Close();
 
-	File file;
-	file.Open(1, "dbfileTest1");
-	Page p;// = new Page();
-	file.GetPage(&p, 0);
-	Record rec;
-	p.GetFirst(&rec);
-	rec.Print(&mySchema);
-	//p.EmptyItOut();
-	p.GetFirst(&rec);
-	rec.Print(&mySchema);
-	file.Close();
+	//File file;
+	//file.Open(1, "dbfileTest1");
+	//Page p;// = new Page();
+	//file.GetPage(&p, 0);
+	//Record rec;
+	//p.GetFirst(&rec);
+	//rec.Print(&mySchema);
+	////p.EmptyItOut();
+	//p.GetFirst(&rec);
+	//rec.Print(&mySchema);
+	//file.Close();
 
 	// Working until line 148 above without segfaults. Only GetNext remaining.
 
+
+	cout << "********************* Test GetNext *************************" << endl;
+
+	//DBFile trydbf;
+	//trydbf.Open(testFileName1);
+	////trydbf.GetNext(first);
+	////first.Print(&mySchema);
+	//cout << endl;
+	//Record first;
+	//for (int i = 0; i < 60174; i++) {
+
+	//	trydbf.GetNext(first);
+	//	first.Print(&mySchema);
+	//	cout << endl;
+	//}
+	//Record s;
+	//trydbf.GetNext(s);
+	//s.Print(&mySchema);
+
+
+	//Test2
+	//DBFile trydbf2;
+	//Record temp;
+	//char testFileName2[] = "dbfileTest2";
+	////trydbf2.Open(testFileName2);
+	//trydbf2.Create(testFileName2, testFileType, NULL);
+	//FILE *fileToRead = fopen("lineitem.tbl", "r");
+	//temp.SuckNextRecord(&mySchema, fileToRead);
+	//trydbf2.Add(temp);
+	//temp.SuckNextRecord(&mySchema, fileToRead);
+	//trydbf2.Add(temp); 
+	//temp.SuckNextRecord(&mySchema, fileToRead);
+	//trydbf2.Add(temp);
+	//cout << trydbf2.GetNext(temp) << endl;
+	//temp.Print(&mySchema);
+
+	DBFile trydbf;
+	trydbf.Open(testFileName1);
+	//trydbf.GetNext(first);
+	//first.Print(&mySchema);
+	cout << endl;
+	Record first;
+	for (int i = 0; i < 10; i++) {
+
+		trydbf.GetNext(first,myComparison,literal);
+		first.Print(&mySchema);
+		cout << endl;
+	}
+	Record s;
+	trydbf.GetNext(s);
+	s.Print(&mySchema);
+
+
+	//dbFile1.Close();
 }
 
 
