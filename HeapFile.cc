@@ -3,7 +3,6 @@
 #include "Record.h"
 #include "Schema.h"
 #include "File.h"
-#include "DBFile.h"
 #include "RawDBFile.h"
 #include "HeapFile.h"
 
@@ -36,6 +35,7 @@ void HeapFile::Load(Schema &f_schema, char *loadpath) {
 	mainFile->AddPage(bufferPage, totalPages);
 
 	cout << "Load done. Number of Pages: " << mainFile->GetLength() << endl;
+	fclose(fileToRead);
 }
 
 int HeapFile::Open(char *f_path) {
@@ -60,17 +60,33 @@ void HeapFile::MoveFirst() {
 	temp.GetFirst(&rec);
 	recordPointer = &rec;
 	currentPageNumber = 0;
+
+	//TODO
+	// Remove test code
+	Schema mySchema("catalog", "lineitem");
+	(rec).Print(&mySchema);
+	cout << endl;
+	temp.GetFirst(&rec);
+	(rec).Print(&mySchema);
+	cout << endl;
+
+	Record rec1;
+	temp.GetFirst(&rec1);
+	(rec1).Print(&mySchema);
+	cout << endl;
 }
 
 int HeapFile::Close() {
 	mainFile->Close();
+	delete mainFile;
 	mainFile = NULL;
+	delete bufferPage;
 	bufferPage = NULL;
 	return 1;
 }
 
 void HeapFile::Add(Record &rec) {
-	Record temp = rec;
+	//Record temp = rec;
 	int result = bufferPage->Append(&rec);
 
 	if (result == 1) {
@@ -80,11 +96,11 @@ void HeapFile::Add(Record &rec) {
 		off_t totalPages = mainFile->GetLength();
 		totalPages = (totalPages == 0) ? 0 : totalPages - 1;
 		mainFile->AddPage(bufferPage, totalPages);
-		//bufferPage->EmptyItOut();
+		bufferPage->EmptyItOut();
 		//delete bufferPage;
 		//bufferPage = NULL;
-		bufferPage = new Page();
-		bufferPage->Append(&temp);
+		//bufferPage = new Page();
+		bufferPage->Append(&rec);
 	}
 }
 
