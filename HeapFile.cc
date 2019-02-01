@@ -35,13 +35,14 @@ void HeapFile::Load(Schema &f_schema, char *loadpath) {
 	totalPages = (totalPages == 0) ? 0 : totalPages - 1;
 	mainFile->AddPage(bufferPage, totalPages);
 
-	cerr << "Load done. Number of Pages: " << mainFile->GetLength() << endl;
+	cout << "Load done. Number of Pages: " << mainFile->GetLength() << endl;
 }
 
 int HeapFile::Open(char *f_path) {
 	mainFile = new File();
 	mainFile->Open(1, f_path);
 	bufferPage = new Page();
+	return 1;
 }
 
 void HeapFile::MoveFirst() {
@@ -63,6 +64,8 @@ void HeapFile::MoveFirst() {
 
 int HeapFile::Close() {
 	mainFile->Close();
+	mainFile = NULL;
+	bufferPage = NULL;
 	return 1;
 }
 
