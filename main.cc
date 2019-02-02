@@ -118,10 +118,11 @@ int main () {
 	*/
 
 	DBFile dbFile1;
-	char testFileName1[] = "dbfileTest1";
+	const char testFileName1[] = "dbfileTest1";
 	dbFile1.Create(testFileName1, testFileType, NULL);
 	//dbFile1.Open(testFileName1);
-	dbFile1.Load(mySchema, "lineitem.tbl");
+	const char lineitemtbl[] = "lineitem.tbl";
+	dbFile1.Load(mySchema, lineitemtbl);
 	dbFile1.MoveFirst();
 	cout << "after move" << endl;
 	dbFile1.Close();
