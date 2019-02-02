@@ -11,9 +11,6 @@
 #include "DBFile.h"
 #include "Defs.h"
 
-
-// stub file .. replace it with your own DBFile.cc
-
 DBFile::DBFile () {
 
 }
@@ -22,27 +19,27 @@ DBFile::~DBFile() {
 
 }
 
-int DBFile::Create (char *f_path, fType f_type, void *startup) {
+int DBFile::Create (const char *f_path, fType f_type, void *startup) {
 	char metaFileName[200];
 	strcpy(metaFileName,f_path);
 	strcat(metaFileName, "-meta.txt");
 
 	ofstream metaFileStream;
 	metaFileStream.open(metaFileName);
-	if (f_type == fType::heap) {
+	if (f_type == heap) {
 		metaFileStream << "heap";
 		rawDBFile = new HeapFile();
 	}
 
 	metaFileStream.close();
-	return rawDBFile->Create(f_path,f_type,startup);
+	return rawDBFile->Create(f_path,startup);
 }
 
-void DBFile::Load (Schema &f_schema, char *loadpath) {
+void DBFile::Load (Schema &f_schema, const char *loadpath) {
 	rawDBFile->Load(f_schema,loadpath);
 }
 
-int DBFile::Open (char *f_path) {
+int DBFile::Open (const char *f_path) {
 	char metaFileName[200];
 	strcpy(metaFileName, f_path);
 	strcat(metaFileName, "-meta.txt");
