@@ -95,9 +95,6 @@ void HeapFile::Add(Record &rec) {
 		}
 		bufferPage->EmptyItOut();
 		isBufferEmpty = 1;
-		//delete bufferPage;
-		//bufferPage = NULL;
-		//bufferPage = new Page();
 		bufferPage->Append(&rec);
 		isBufferEmpty = 0;
 	}
